@@ -1,0 +1,38 @@
+### Create course
+POST localhost:8082/course/create
+Content-Type: application/json
+
+{
+  "name": "Pyton",
+  "price": 200000,
+  "duration": 5
+}
+
+### Get by id
+GET localhost:8082/course/1
+
+###Get all
+GET localhost:8082/course/all
+
+### Put
+PUT localhost:8082/course/1
+Content-Type: application/json
+
+{
+"price": 500000,
+"duration": 8
+}
+
+### delete by id
+DELETE localhost:8082/course/1
+
+###get by name
+GET localhost:8082/course/name/Pyton
+
+###get by price
+GET localhost:8082/course/price/200000
+
+###get by duration
+GET localhost:8082/course/duration/5
+
+

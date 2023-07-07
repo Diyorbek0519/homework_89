@@ -18,11 +18,13 @@ import java.util.List;
 public class StudentController {
     @Autowired
     private StudentService studentService;
+
     @PostMapping(value = "/create")
     public ResponseEntity<?> create(@RequestBody StudentDTO student) {
         StudentDTO response = studentService.add(student);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @GetMapping("/all")
     public List<StudentDTO> all() {
         return studentService.getAll();
@@ -32,12 +34,14 @@ public class StudentController {
     public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(studentService.getById(id));
     }
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> put(@RequestBody StudentDTO student,
                                  @PathVariable("id") Integer id) {
         studentService.update(id, student);
         return ResponseEntity.ok(true);
     }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
         Boolean response = studentService.delete(id);
@@ -46,43 +50,68 @@ public class StudentController {
         }
         return ResponseEntity.badRequest().body("Student Not Found");
     }
+
     @GetMapping(value = "/name/{name}")
-    public ResponseEntity<?> getByName(@PathVariable("name") String name){
+    public ResponseEntity<?> getByName(@PathVariable("name") String name) {
         return ResponseEntity.ok(studentService.getByName(name));
     }
+
     @GetMapping(value = "/surname/{surname}")
-    public ResponseEntity<?> getBySurname(@PathVariable("surname") String surname){
+    public ResponseEntity<?> getBySurname(@PathVariable("surname") String surname) {
         return ResponseEntity.ok(studentService.getBySurname(surname));
     }
 
     @GetMapping(value = "/level/{level}")
-    public ResponseEntity<?> getByLevel(@PathVariable("level") Integer level){
+    public ResponseEntity<?> getByLevel(@PathVariable("level") Integer level) {
         return ResponseEntity.ok(studentService.getByLevel(level));
     }
+
     @GetMapping(value = "/age/{age}")
-    public ResponseEntity<?> getByAge(@PathVariable("age") Integer age){
+    public ResponseEntity<?> getByAge(@PathVariable("age") Integer age) {
         return ResponseEntity.ok(studentService.getByAge(age));
     }
 
     @GetMapping(value = "/gender/{gender}")
-    public ResponseEntity<?> getByGender(@PathVariable("gender") Gender gender){
+    public ResponseEntity<?> getByGender(@PathVariable("gender") Gender gender) {
         return ResponseEntity.ok(studentService.getByGender(gender));
     }
-    @GetMapping(value = "/created_date")
-    public ResponseEntity<?> getStudentEntityByCreatedDateBetween(@RequestParam("created_date") LocalDate date){
-        return ResponseEntity.ok(studentService.getStudentEntityByCreatedDateBetween(date));
+
+    @GetMapping(value = "/byGivenDate")
+    public ResponseEntity<?> getStudentEntityByGivenDate(@RequestParam("date") LocalDate date) {
+        return ResponseEntity.ok(studentService.getStudentEntityByGivenDate(date));
     }
-    @GetMapping("/date-range")
-    public ResponseEntity<List<StudentEntity>> getStudentsBetweenDates(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        List<StudentEntity> studentList = studentService.getStudentsBetweenDates(startDate, endDate);
+
+    @GetMapping("/byGivenDates")
+    public ResponseEntity<?> getStudentEntityByGivenDates(
+            @RequestParam("from") LocalDate startDate,
+            @RequestParam("to") LocalDate endDate) {
+        List<StudentDTO> studentList = studentService.getStudentEntityByGivenDates(startDate, endDate);
         return ResponseEntity.ok(studentList);
     }
 
-
-
-
+    @GetMapping("/pagination")
+    public ResponseEntity<?> getByPagination(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+       return ResponseEntity.ok(studentService.studentPagination(page,size));
+    }
+    @GetMapping("/paginationByLevel")
+    public ResponseEntity<?> getByLevelAndPagination(
+            @RequestParam("page") int page,
+            @RequestParam("size" ) int size,
+            @RequestParam("level") Integer level
+    ){
+        return ResponseEntity.ok(studentService.paginationByLevel(page,size,level));
+    }
+    @GetMapping("/paginationByGender")
+    public ResponseEntity<?> paginationByGender(
+            @RequestParam("page") int page,
+            @RequestParam("size" ) int size,
+            @RequestParam("gender") Gender gender
+    ){
+        return ResponseEntity.ok(studentService.paginationByGender(page,size,gender));
+    }
 
 
 

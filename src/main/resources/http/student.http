@@ -45,32 +45,21 @@ GET  localhost:8082/student/age/21
 GET localhost:8082/student/gender/MALE
 
 ###Get by given date
-GET localhost:8082/student/created_date?created_date=2023-07-05
+GET localhost:8082/student/byGivenDate?date=2023-07-05
 
-### GET BY beetwen date
-GET localhost:8082/student/date-range?startDate=2023-07-01&endDate=2023-07-31
+### GET BY beetwen dates
+GET localhost:8082/student/byGivenDates?from=2023-07-02&to=2023-07-07
+
+###pagination
+GET localhost:8082/student/pagination?page=0&size=2
+
+###get by level and pagination
+GET localhost:8082/student/paginationByLevel?page=0&size=1&level=4
+
+###get by level and pagination
+GET localhost:8082/student/paginationByGender?page=0&size=1&gender=MALE
 
 
-
-
-
-
-### Create student all
-POST localhost:8082/student/create/all
-Content-Type: application/json
-
-[
-  {
-    "name": "Toshmat",
-    "surname": "Toshmatov",
-    "age": 32
-  },
-  {
-    "name": "Vali",
-    "surname": "Aliyev",
-    "age": 20
-  }
-]
 
 
 

@@ -1,0 +1,9 @@
+### Create mark
+POST localhost:8082/mark/create
+Content-Type: application/json
+
+{
+  "studentId": 3,
+  "courseId": 2,
+  "mark": 5
+}

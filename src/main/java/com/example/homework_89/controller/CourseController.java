@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -58,6 +59,50 @@ public class CourseController {
     public ResponseEntity<?> getByDuration(@PathVariable("duration") Integer duration) {
         return ResponseEntity.ok(courseService.getByDuration(duration));
     }
+    @GetMapping(value = "/prices")
+    public ResponseEntity<?> getByprices(@RequestParam("param1") Double pr1,
+                                                @RequestParam("param2") Double pr2){
+        List<CourseDTO> courseDTOList =courseService.getByPrices(pr1, pr2);
+        return ResponseEntity.ok(courseDTOList);
+    }
+    @GetMapping(value = "/getByDate")
+    public ResponseEntity<?> getByDate(@RequestParam("time1") LocalDate time1,
+                                       @RequestParam("time2") LocalDate time2){
+        return ResponseEntity.ok(courseService.getByDate(time1, time2));
+    }
+    @GetMapping(value = "/pagination")
+    public ResponseEntity<?> pagination(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ){
+        return ResponseEntity.ok(courseService.pagination(page,size));
+    }
+    @GetMapping(value = "/paginationAndSorting")
+    public ResponseEntity<?> paginationAndSortingByCreatedDate(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ){
+        return ResponseEntity.ok(courseService.paginationAndSortingByCreatedDate(page,size));
+    }
+    @GetMapping(value = "/findByPriceAndPagination")
+    public ResponseEntity<?> findByPriceAndPagination(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("price") Double price
+    ){
+        return ResponseEntity.ok(courseService.findByPriceAndPagination(page,size,price));
+    }
+    @GetMapping(value = "/findByPriceBerweenAndPagination")
+    public ResponseEntity<?> findByPriceBetweenAndPagination(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("price1") Double price1,
+            @RequestParam("price2") Double price2
+    ){
+        return ResponseEntity.ok(courseService.findByPriceBetweenAndPagination(page,size,price1,price2));
+    }
+
+
 
 
 

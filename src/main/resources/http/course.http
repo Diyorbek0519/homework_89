@@ -3,9 +3,9 @@ POST localhost:8082/course/create
 Content-Type: application/json
 
 {
-  "name": "Pyton",
-  "price": 200000,
-  "duration": 5
+  "name": "FrontEnd",
+  "price": 100000,
+  "duration": 2
 }
 
 ### Get by id
@@ -34,5 +34,23 @@ GET localhost:8082/course/price/200000
 
 ###get by duration
 GET localhost:8082/course/duration/5
+
+###get by between prices
+GET localhost:8082/course/prices?param1=200000&param2=600000
+
+###get by given dates
+GET localhost:8082/course/getByDate?time1=2023-07-02&time2=2023-07-07
+
+###pagination
+GET localhost:8082/course/pagination?page=0&size=1
+
+###pagination and sorting by created date
+GET localhost:8082/course/paginationAndSorting?page=0&size=1
+
+###find by price and pagination
+GET localhost:8082/course/findByPriceAndPagination?page=0&size=1&price=100000
+
+###find by price between
+GET localhost:8082/course/findByPriceBerweenAndPagination?page=0&size=1&price1=100000&price2=600000
 
 

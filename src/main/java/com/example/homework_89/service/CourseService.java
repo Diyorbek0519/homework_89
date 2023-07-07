@@ -1,14 +1,21 @@
 package com.example.homework_89.service;
 
 import com.example.homework_89.dto.CourseDTO;
+import com.example.homework_89.dto.StudentDTO;
 import com.example.homework_89.entity.CourseEntity;
 import com.example.homework_89.entity.StudentEntity;
 import com.example.homework_89.exception.ItemNotFoundException;
 import com.example.homework_89.repository.CourseRepocitory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -113,6 +120,80 @@ public class CourseService {
         }
         List<CourseDTO> courseDTOList = new LinkedList<>();
         entities.forEach(temp->{
+            courseDTOList.add(toDto(temp));
+        });
+        return courseDTOList;
+    }
+
+    public List<CourseDTO> getByPrices(Double pr1, Double pr2) {
+        List<CourseEntity> entities =courseRepocitory.getByPriceBetween(pr1, pr2);
+        if(entities.isEmpty()){
+            throw new ItemNotFoundException("Not found");
+        }
+        List<CourseDTO> courseDTOList = new LinkedList<>();
+        entities.forEach(temp->{
+            courseDTOList.add(toDto(temp));
+        });
+        return courseDTOList;
+    }
+
+    public List<CourseDTO> getByDate(LocalDate time1, LocalDate time2) {
+        LocalDateTime t1 =LocalDateTime.of(time1, LocalTime.MIN);
+        LocalDateTime t2 =LocalDateTime.of(time2, LocalTime.MAX);
+        List<CourseEntity> entityList =courseRepocitory.getByCreatedDateBetween(t1,t2);
+        if(entityList.isEmpty()){
+            throw new ItemNotFoundException("Not found");
+        }
+        List<CourseDTO> courseDTOList = new LinkedList<>();
+        entityList.forEach(temp->{
+            courseDTOList.add(toDto(temp));
+        });
+        return courseDTOList;
+    }
+    public List<CourseDTO> pagination(int page, int size){
+        Pageable pageable = PageRequest.of(page,size);
+        Page<CourseEntity> entityList=courseRepocitory.findAll(pageable);
+        if(entityList.isEmpty()){
+            throw new ItemNotFoundException("Not found");
+        }
+        List<CourseDTO> courseDTOList = new LinkedList<>();
+        entityList.forEach(temp->{
+            courseDTOList.add(toDto(temp));
+        });
+        return courseDTOList;
+    }
+    public List<CourseDTO> paginationAndSortingByCreatedDate(int page, int size){
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdDate").descending());
+        Page<CourseEntity> entityList=courseRepocitory.findAll(pageable);
+        if(entityList.isEmpty()){
+            throw new ItemNotFoundException("Not found");
+        }
+        List<CourseDTO> courseDTOList = new LinkedList<>();
+        entityList.forEach(temp->{
+            courseDTOList.add(toDto(temp));
+        });
+        return courseDTOList;
+    }
+    public List<CourseDTO> findByPriceAndPagination(int page, int size, Double price){
+        Pageable pageable =PageRequest.of(page, size, Sort.by("createdDate").descending());
+        List<CourseEntity> entityList=courseRepocitory.findByPrice(pageable,price);
+        if(entityList.isEmpty()){
+            throw new ItemNotFoundException("Not found");
+        }
+        List<CourseDTO> courseDTOList = new LinkedList<>();
+        entityList.forEach(temp->{
+            courseDTOList.add(toDto(temp));
+        });
+        return courseDTOList;
+    }
+    public List<CourseDTO> findByPriceBetweenAndPagination(int page, int size, Double price1, Double price2){
+        Pageable pageable =PageRequest.of(page, size, Sort.by("createdDate").descending());
+        List<CourseEntity> entityList=courseRepocitory.findByPriceBetween(pageable,price1,price2);
+        if(entityList.isEmpty()){
+            throw new ItemNotFoundException("Not found");
+        }
+        List<CourseDTO> courseDTOList = new LinkedList<>();
+        entityList.forEach(temp->{
             courseDTOList.add(toDto(temp));
         });
         return courseDTOList;

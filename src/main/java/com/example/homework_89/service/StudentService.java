@@ -54,7 +54,7 @@ public class StudentService {
     }*/
 
     public List<StudentDTO> getAll() {
-        Iterable<StudentEntity> iterable = studentRepository.findAll();
+        Iterable<StudentEntity> iterable = studentRepository.getAll();
         List<StudentDTO> dtoList = new LinkedList<>();
         iterable.forEach(entity -> {
             StudentDTO dto = toDTO(entity);
@@ -64,6 +64,7 @@ public class StudentService {
     }
 
     public StudentDTO getById(Integer id) {
+        // Optional<StudentEntity> optional = studentRepository.findById(id);
         Optional<StudentEntity> optional = studentRepository.findById(id);
         if (optional.isEmpty()) {
             throw new ItemNotFoundException("Student not found");
@@ -78,6 +79,14 @@ public class StudentService {
 
     }
 
+    public StudentDTO getById2(Integer id) {
+        StudentEntity entity = studentRepository.getStudentById(id);
+        if(entity==null){
+            throw new ItemNotFoundException("Student not found");
+        }
+        return toDTO(entity);
+    }
+
 
     public Boolean delete(Integer id) {
         Optional<StudentEntity> optional = studentRepository.findById(id);
@@ -86,6 +95,10 @@ public class StudentService {
         }
         studentRepository.deleteById(id);
         return true;
+    }
+    public Boolean delete2(Integer id) {
+        int effectedRows=studentRepository.delete(id);
+        return effectedRows!=0;
     }
 
     public Boolean update(Integer id, StudentDTO student) {
@@ -102,6 +115,10 @@ public class StudentService {
             return true;
         }
         return false;
+    }
+    public Boolean update2(Integer id, StudentDTO student) {
+        int effectedRows = studentRepository.updateNameAndSurname(id, student.getName(), student.getSurname());
+        return effectedRows != 0;
     }
 
     public StudentDTO toDTO(StudentEntity entity) {
@@ -149,6 +166,19 @@ public class StudentService {
         });
         return dtoList;
     }
+    public List<StudentDTO> getByName2(String name) {
+        List<StudentEntity> studentList = studentRepository.getStudentEntityByName(name);
+        if (studentList.isEmpty()) {
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentDTO> dtoList = new LinkedList<>();
+        studentList.forEach(st -> {
+            dtoList.add(toDTO(st));
+        });
+        return dtoList;
+    }
+
+
 
     public List<StudentDTO> getBySurname(String surname) {
         List<StudentEntity> studentList = studentRepository.getBySurname(surname);
@@ -161,6 +191,18 @@ public class StudentService {
         });
         return dtoList;
     }
+    public List<StudentDTO> getBySurname2(String surname) {
+        List<StudentEntity> studentList = studentRepository.getStudentEntityBySurname(surname);
+        if (studentList.isEmpty()) {
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentDTO> dtoList = new LinkedList<>();
+        studentList.forEach(st -> {
+            dtoList.add(toDTO(st));
+        });
+        return dtoList;
+    }
+
 
     public List<StudentDTO> getByLevel(Integer level) {
         List<StudentEntity> studentList = studentRepository.getByLevel(level);
@@ -173,6 +215,18 @@ public class StudentService {
         });
         return dtoList;
     }
+    public List<StudentDTO> getByLevel2(Integer level) {
+        List<StudentEntity> studentList = studentRepository.getStudentEntityByLevel(level);
+        if (studentList.isEmpty()) {
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentDTO> dtoList = new LinkedList<>();
+        studentList.forEach(st -> {
+            dtoList.add(toDTO(st));
+        });
+        return dtoList;
+    }
+
 
     public List<StudentDTO> getByAge(Integer age) {
         List<StudentEntity> studentList = studentRepository.getByAge(age);
@@ -185,9 +239,31 @@ public class StudentService {
         });
         return dtoList;
     }
+    public List<StudentDTO> getByAge2(Integer age) {
+        List<StudentEntity> studentList = studentRepository.getStudentEntityByAge(age);
+        if (studentList.isEmpty()) {
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentDTO> dtoList = new LinkedList<>();
+        studentList.forEach(st -> {
+            dtoList.add(toDTO(st));
+        });
+        return dtoList;
+    }
 
     public List<StudentDTO> getByGender(Gender gender) {
         List<StudentEntity> studentList = studentRepository.getByGender(gender);
+        if (studentList.isEmpty()) {
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentDTO> dtoList = new LinkedList<>();
+        studentList.forEach(st -> {
+            dtoList.add(toDTO(st));
+        });
+        return dtoList;
+    }
+    public List<StudentDTO> getByGender2(Gender gender) {
+        List<StudentEntity> studentList = studentRepository.getStudentEntityByGender(gender);
         if (studentList.isEmpty()) {
             throw new ItemNotFoundException("Not found");
         }
@@ -211,11 +287,24 @@ public class StudentService {
         });
         return dtoList;
     }
+    public List<StudentDTO> getStudentEntityByGivenDate2(LocalDate date) {
+        LocalDateTime t1 = LocalDateTime.of(date, LocalTime.MIN);
+        LocalDateTime t2 = LocalDateTime.of(date, LocalTime.MAX);
+        List<StudentEntity> studentList = studentRepository.getStudentEntityByCreatedDateBetween(t1, t2);
+        if (studentList.isEmpty()) {
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentDTO> dtoList = new LinkedList<>();
+        studentList.forEach(st -> {
+            dtoList.add(toDTO(st));
+        });
+        return dtoList;
+    }
 
     public List<StudentDTO> getStudentEntityByGivenDates(LocalDate from, LocalDate to) {
         LocalDateTime t1 = LocalDateTime.of(from, LocalTime.MIN);
         LocalDateTime t2 = LocalDateTime.of(to, LocalTime.MAX);
-        List<StudentEntity> entityList = studentRepository.getStudentEntityByCreatedDateBetween(t1, t2);
+        List<StudentEntity> entityList = studentRepository.getStudentEntityByCreatedDate(t1, t2);
         if (entityList.isEmpty()) {
             throw new ItemNotFoundException("Not found");
         }
@@ -225,6 +314,20 @@ public class StudentService {
         });
         return dtoList;
     }
+    public List<StudentDTO> getStudentEntityByGivenDates2(LocalDate from, LocalDate to) {
+        LocalDateTime t1 = LocalDateTime.of(from, LocalTime.MIN);
+        LocalDateTime t2 = LocalDateTime.of(to, LocalTime.MAX);
+        List<StudentEntity> entityList = studentRepository.getStudentEntityByCreatedDate(t1, t2);
+        if (entityList.isEmpty()) {
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentDTO> dtoList = new LinkedList<>();
+        entityList.forEach(st -> {
+            dtoList.add(toDTO(st));
+        });
+        return dtoList;
+    }
+
     public List<StudentDTO> studentPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<StudentEntity> entityList = studentRepository.findAll(pageable);
@@ -239,6 +342,7 @@ public class StudentService {
         });
         return dtoList;
     }
+
     public List<StudentDTO> paginationByLevel(int page, int size, Integer level) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         List<StudentEntity> entityList = studentRepository.findByLevel(pageable, level);
@@ -251,9 +355,10 @@ public class StudentService {
         });
         return dtoList;
     }
-    public List<StudentDTO> paginationByGender(int page, int size,Gender gender){
-        Pageable pageable=PageRequest.of(page,size,Sort.by("createdDate").descending());
-        List<StudentEntity> entityList = studentRepository.findByGender(pageable,gender);
+
+    public List<StudentDTO> paginationByGender(int page, int size, Gender gender) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        List<StudentEntity> entityList = studentRepository.findByGender(pageable, gender);
         if (entityList.isEmpty()) {
             throw new ItemNotFoundException("Not found");
         }
@@ -263,9 +368,6 @@ public class StudentService {
         });
         return dtoList;
     }
-
-
-
 
 
 }

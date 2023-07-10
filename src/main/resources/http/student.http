@@ -16,39 +16,77 @@ GET localhost:8082/student/all
 ### Get by id
 GET localhost:8082/student/1
 
+### Get by id2
+GET localhost:8082/student/getById/1
+
 ### Update by id
 PUT localhost:8082/student/1
 Content-Type: application/json
 
 {
-  "name": "Alijon",
-  "surname": "Aliyevhon"
+"name": "Alijon",
+"surname": "Aliyevhon"
 }
+### Update by id2
+PUT localhost:8082/student/update/1
+Content-Type: application/json
+
+{
+  "name": "Valijon",
+  "surname": "Aliyev"
+}
+
 
 ### Delete by id
 DELETE localhost:8082/student/8
+
+### Delete by id2
+DELETE localhost:8082/student/delete/1
+
 
 ###Get by name
 
 GET localhost:8082/student/name/Alijon
 
+###Get by name 2
+
+GET localhost:8082/student/name2/Alijon
+
 ###Get by surname
 GET localhost:8082/student/surname/Aliyev
+
+###Get by surname2
+GET localhost:8082/student/surname2/Aliyev
 
 ###Get by level
 GET localhost:8082/student/level/3
 
+###Get by level2
+GET localhost:8082/student/level2/3
+
 ###Get by age
 GET  localhost:8082/student/age/21
+
+###Get by age2
+GET  localhost:8082/student/age2/21
 
 ###Get by gender
 GET localhost:8082/student/gender/MALE
 
+###Get by gender2
+GET localhost:8082/student/gender2/MALE
+
 ###Get by given date
 GET localhost:8082/student/byGivenDate?date=2023-07-05
 
+###Get by given date2
+GET localhost:8082/student/byGivenDate2?date=2023-07-05
+
 ### GET BY beetwen dates
 GET localhost:8082/student/byGivenDates?from=2023-07-02&to=2023-07-07
+
+### GET BY beetwen dates2
+GET localhost:8082/student/byGivenDates2?from=2023-07-02&to=2023-07-07
 
 ###pagination
 GET localhost:8082/student/pagination?page=0&size=2

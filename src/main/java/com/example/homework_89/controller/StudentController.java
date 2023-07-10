@@ -34,11 +34,21 @@ public class StudentController {
     public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(studentService.getById(id));
     }
+    @GetMapping(value = "/getById/{id}")
+    public ResponseEntity<?> getById2(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(studentService.getById2(id));
+    }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> put(@RequestBody StudentDTO student,
                                  @PathVariable("id") Integer id) {
         studentService.update(id, student);
+        return ResponseEntity.ok(true);
+    }
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<?> update(@RequestBody StudentDTO student,
+                                 @PathVariable("id") Integer id) {
+        studentService.update2(id, student);
         return ResponseEntity.ok(true);
     }
 
@@ -50,35 +60,67 @@ public class StudentController {
         }
         return ResponseEntity.badRequest().body("Student Not Found");
     }
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<?> delete2(@PathVariable("id") Integer id) {
+        Boolean response = studentService.delete2(id);
+        if (response) {
+            return ResponseEntity.ok("Student deleted");
+        }
+        return ResponseEntity.badRequest().body("Student Not Found");
+    }
 
     @GetMapping(value = "/name/{name}")
     public ResponseEntity<?> getByName(@PathVariable("name") String name) {
         return ResponseEntity.ok(studentService.getByName(name));
+    }
+    @GetMapping(value = "/name2/{name}")
+    public ResponseEntity<?> getByName2(@PathVariable("name") String name) {
+        return ResponseEntity.ok(studentService.getByName2(name));
     }
 
     @GetMapping(value = "/surname/{surname}")
     public ResponseEntity<?> getBySurname(@PathVariable("surname") String surname) {
         return ResponseEntity.ok(studentService.getBySurname(surname));
     }
+    @GetMapping(value = "/surname2/{surname}")
+    public ResponseEntity<?> getBySurname2(@PathVariable("surname") String surname) {
+        return ResponseEntity.ok(studentService.getBySurname2(surname));
+    }
 
     @GetMapping(value = "/level/{level}")
     public ResponseEntity<?> getByLevel(@PathVariable("level") Integer level) {
         return ResponseEntity.ok(studentService.getByLevel(level));
+    }
+    @GetMapping(value = "/level2/{level}")
+    public ResponseEntity<?> getByLevel2(@PathVariable("level") Integer level) {
+        return ResponseEntity.ok(studentService.getByLevel2(level));
     }
 
     @GetMapping(value = "/age/{age}")
     public ResponseEntity<?> getByAge(@PathVariable("age") Integer age) {
         return ResponseEntity.ok(studentService.getByAge(age));
     }
+    @GetMapping(value = "/age2/{age}")
+    public ResponseEntity<?> getByAge2(@PathVariable("age") Integer age) {
+        return ResponseEntity.ok(studentService.getByAge2(age));
+    }
 
     @GetMapping(value = "/gender/{gender}")
     public ResponseEntity<?> getByGender(@PathVariable("gender") Gender gender) {
         return ResponseEntity.ok(studentService.getByGender(gender));
     }
+    @GetMapping(value = "/gender2/{gender}")
+    public ResponseEntity<?> getByGender2(@PathVariable("gender") Gender gender) {
+        return ResponseEntity.ok(studentService.getByGender2(gender));
+    }
 
     @GetMapping(value = "/byGivenDate")
     public ResponseEntity<?> getStudentEntityByGivenDate(@RequestParam("date") LocalDate date) {
         return ResponseEntity.ok(studentService.getStudentEntityByGivenDate(date));
+    }
+    @GetMapping(value = "/byGivenDate2")
+    public ResponseEntity<?> getStudentEntityByGivenDate2(@RequestParam("date") LocalDate date) {
+        return ResponseEntity.ok(studentService.getStudentEntityByGivenDate2(date));
     }
 
     @GetMapping("/byGivenDates")
@@ -86,6 +128,13 @@ public class StudentController {
             @RequestParam("from") LocalDate startDate,
             @RequestParam("to") LocalDate endDate) {
         List<StudentDTO> studentList = studentService.getStudentEntityByGivenDates(startDate, endDate);
+        return ResponseEntity.ok(studentList);
+    }
+    @GetMapping("/byGivenDates2")
+    public ResponseEntity<?> getStudentEntityByGivenDates2(
+            @RequestParam("from") LocalDate startDate,
+            @RequestParam("to") LocalDate endDate) {
+        List<StudentDTO> studentList = studentService.getStudentEntityByGivenDates2(startDate, endDate);
         return ResponseEntity.ok(studentList);
     }
 

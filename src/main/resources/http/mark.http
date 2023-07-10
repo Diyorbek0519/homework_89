@@ -16,3 +16,50 @@ Content-Type: application/json
   "mark": 3
 }
 
+### get BY id
+GET localhost:8082/mark/get/3
+
+### get BY id with detail
+GET localhost:8082/mark/getWithDetail/3
+
+### delete by id
+DELETE localhost:8082/mark/delete/5
+
+### get all
+GET  localhost:8082/mark/all
+
+### get student marks for given date
+GET localhost:8082/mark/byIdAndDate?id=3&from=2023-07-10
+
+### get student marks for given dates
+GET localhost:8082/mark/byIdAndDates?id=3&from=2023-07-07&to=2023-07-10
+
+###get all by id sort by created Date
+GET localhost:8082/mark/getAllSort/3
+
+###get all by and courseId
+GET localhost:8082/mark/getByStudentIdAndCourseId?id1=3&id2=2
+
+###get by student id and course name
+GET localhost:8082/mark/getByIdAndCourseName/11
+
+###get three marks
+GET localhost:8082/mark/getThreeMarks/3
+
+###get first mark
+GET localhost:8082/mark/getFirstMark/3
+
+###get mark
+GET localhost:8082/mark/getMark?name=Pyton&id=3
+
+###get mark
+GET localhost:8082/mark/getMarkByCourseName?name=Pyton&id=3
+
+###pagination
+GET localhost:8082/mark/pagination?page=0&size=2
+
+###pagination by student id
+GET localhost:8082/mark/paginationByStudentId?page=0&size=1&id=3
+
+###pagination by course id
+GET localhost:8082/mark/paginationByCourseId?page=0&size=1&id=3

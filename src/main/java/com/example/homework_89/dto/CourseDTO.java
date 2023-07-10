@@ -12,4 +12,11 @@ public class CourseDTO {
     private Double price;
     private Integer duration;
     private LocalDateTime createdDate;
+
+    public CourseDTO() {
+    }
+
+    public CourseDTO(String name) {
+        this.name = name;
+    }
 }

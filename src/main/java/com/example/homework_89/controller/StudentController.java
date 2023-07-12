@@ -1,6 +1,7 @@
 package com.example.homework_89.controller;
 
 import com.example.homework_89.dto.StudentDTO;
+import com.example.homework_89.dto.StudentFilterDTO;
 import com.example.homework_89.entity.StudentEntity;
 import com.example.homework_89.enums.Gender;
 import com.example.homework_89.service.StudentService;
@@ -160,6 +161,12 @@ public class StudentController {
             @RequestParam("gender") Gender gender
     ){
         return ResponseEntity.ok(studentService.paginationByGender(page,size,gender));
+    }
+    @PostMapping("/filter")
+    public ResponseEntity<?> filter(@RequestBody StudentFilterDTO filterDTO,
+                                    @RequestParam("page") int page,
+                                    @RequestParam("size") int size){
+        return ResponseEntity.ok(studentService.filter(filterDTO,page,size));
     }
 
 

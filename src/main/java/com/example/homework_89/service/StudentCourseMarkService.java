@@ -1,13 +1,16 @@
 package com.example.homework_89.service;
 
 import com.example.homework_89.dto.StudentCourseMarkDTO;
+import com.example.homework_89.dto.StudentCourseMarkFilterDTO;
 import com.example.homework_89.dto.StudentDTO;
 import com.example.homework_89.entity.CourseEntity;
 import com.example.homework_89.entity.StudentCourseMarkEntity;
 import com.example.homework_89.entity.StudentEntity;
 import com.example.homework_89.exception.ItemNotFoundException;
 import com.example.homework_89.mapper.MarkMapper;
+import com.example.homework_89.mapper.StudentCourseMarkMapperI;
 import com.example.homework_89.mapper.StudentMarkCourseMapper;
+import com.example.homework_89.repository.CustomStudentCourseMarkRepository;
 import com.example.homework_89.repository.StudentCourseMarkRepocitory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -24,6 +27,8 @@ import java.util.Optional;
 public class StudentCourseMarkService {
     @Autowired
     private StudentCourseMarkRepocitory studentCourseMarkRepocitory;
+    @Autowired
+    private CustomStudentCourseMarkRepository customStudentCourseMarkRepository;
 
     public StudentCourseMarkDTO add(StudentCourseMarkDTO dto) {
         check(dto);
@@ -55,6 +60,11 @@ public class StudentCourseMarkService {
         studentCourseMarkRepocitory.save(entity);
         return true;
     }
+    public Boolean update2(StudentCourseMarkDTO dto, Integer id) {
+        check(dto);
+        int n= studentCourseMarkRepocitory.update(dto.getMark(), id);
+        return n!=0;
+    }
 
 
     public boolean check(StudentCourseMarkDTO studentCourseMarkDTO) {
@@ -71,6 +81,14 @@ public class StudentCourseMarkService {
         }
         StudentCourseMarkEntity entity = optional.get();
         return toDTO(entity);
+    }
+    public StudentCourseMarkMapperI getById2(Integer id) {
+       StudentCourseMarkMapperI mapperI= studentCourseMarkRepocitory.getStudentCourseMarkById(id);
+       if(mapperI==null){
+           throw new ItemNotFoundException("Not found");
+       }else {
+           return mapperI;
+       }
     }
 
     public StudentCourseMarkDTO toDTO(StudentCourseMarkEntity entity) {
@@ -255,6 +273,17 @@ public class StudentCourseMarkService {
         });
         PageImpl<StudentCourseMarkDTO> dtoPage=new PageImpl<>(dtoList,pageable,totalCount);
         return dtoPage;
+    }
+    public List<StudentCourseMarkDTO> filter(StudentCourseMarkFilterDTO filterDTO, int page, int size){
+        if(filterDTO==null){
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentCourseMarkDTO> dtoList = new LinkedList<>();
+        List<StudentCourseMarkEntity> entityList=customStudentCourseMarkRepository.filter(filterDTO,page, size);
+        entityList.forEach(t->{
+           dtoList.add(toDTO(t));
+        });
+        return dtoList;
     }
 
 

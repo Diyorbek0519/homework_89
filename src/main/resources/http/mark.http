@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "studentId": 3,
   "courseId": 2,
-  "mark": 5
+  "mark": 4
 }
 
 ### update
@@ -15,9 +15,18 @@ Content-Type: application/json
 {
   "mark": 3
 }
+### update
+PUT localhost:8082/mark/update2/7
+Content-Type: application/json
 
+{
+  "mark": 4
+}
 ### get BY id
 GET localhost:8082/mark/get/3
+
+### get BY id
+GET localhost:8082/mark/get2/3
 
 ### get BY id with detail
 GET localhost:8082/mark/getWithDetail/3
@@ -63,3 +72,11 @@ GET localhost:8082/mark/paginationByStudentId?page=0&size=1&id=3
 
 ###pagination by course id
 GET localhost:8082/mark/paginationByCourseId?page=0&size=1&id=3
+
+###filter
+POST localhost:8082/mark/filter?page=1&size=2
+Content-Type: application/json
+
+{
+  "createdDateFrom": "2023-07-09"
+}

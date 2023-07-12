@@ -30,4 +30,7 @@ public class StudentCourseMarkEntity {
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @Column(name = "visible")
+    private Boolean visible=true;
 }

@@ -38,6 +38,9 @@ public class StudentEntity {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
+    @Column(name="visible")
+    private Boolean visible=true;
+
 
 
 }

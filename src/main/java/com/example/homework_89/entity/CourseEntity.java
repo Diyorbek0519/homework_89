@@ -25,5 +25,7 @@ public class CourseEntity {
     private Integer duration;
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+    @Column(name = "visible")
+    private Boolean visible=true;
 
 }

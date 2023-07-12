@@ -97,6 +97,13 @@ GET localhost:8082/student/paginationByLevel?page=0&size=1&level=4
 ###get by level and pagination
 GET localhost:8082/student/paginationByGender?page=0&size=1&gender=MALE
 
+### filter
+POST localhost:8082/student/filter?page=1&size=3
+Content-Type: application/json
+
+{
+  "createdDateFrom": "2023-07-05"
+}
 
 
 

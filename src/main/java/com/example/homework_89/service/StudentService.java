@@ -1,10 +1,12 @@
 package com.example.homework_89.service;
 
 import com.example.homework_89.dto.StudentDTO;
+import com.example.homework_89.dto.StudentFilterDTO;
 import com.example.homework_89.entity.StudentEntity;
 import com.example.homework_89.enums.Gender;
 import com.example.homework_89.exception.AppBadRequestException;
 import com.example.homework_89.exception.ItemNotFoundException;
+import com.example.homework_89.repository.CustomStudentRepository;
 import com.example.homework_89.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private CustomStudentRepository customStudentRepository;
 
     public StudentDTO add(StudentDTO dto) {
         check(dto); // validate inputs
@@ -365,6 +369,17 @@ public class StudentService {
         List<StudentDTO> dtoList = new LinkedList<>();
         entityList.forEach(st -> {
             dtoList.add(toDTO(st));
+        });
+        return dtoList;
+    }
+    public List<StudentDTO> filter(StudentFilterDTO filterDTO,int page,int size){
+        if(filterDTO==null){
+            throw new ItemNotFoundException("Not found");
+        }
+        List<StudentEntity> entityList=customStudentRepository.filter(filterDTO,page,size);
+        List<StudentDTO> dtoList=new LinkedList<>();
+        entityList.forEach(t->{
+            dtoList.add(toDTO(t));
         });
         return dtoList;
     }
